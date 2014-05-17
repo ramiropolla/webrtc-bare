@@ -16,8 +16,7 @@ get_request.open("GET", "cgi/getoffer.sh", false);
 get_request.onreadystatechange = function() {
 	if (this.readyState == 4) {
 		if (this.status == 200) {
-			var offer = JSON.parse(this.responseText);
-			pc.setRemoteDescription(new RTCSessionDescription(offer));
+			pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(this.responseText)));
 			pc.createAnswer(function (desc) {
 				pc.setLocalDescription(desc);
 			});

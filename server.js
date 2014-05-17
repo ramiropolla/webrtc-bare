@@ -22,8 +22,7 @@ intfunc = window.setInterval(function(){
 	get_request.onreadystatechange = function() {
 		if (this.readyState == 4) {
 			if (this.status == 200 && this.responseText != "") {
-				var offer = JSON.parse(this.responseText);
-				pc.setRemoteDescription(new RTCSessionDescription(offer));
+				pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(this.responseText)));
 				window.clearInterval(intfunc);
 			}
 		}
