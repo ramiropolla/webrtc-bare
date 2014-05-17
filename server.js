@@ -2,9 +2,9 @@
 var pc = new webkitRTCPeerConnection(null);
 pc.onicecandidate = function(e) {
 	if (e.candidate == null) {
-		save_request = new XMLHttpRequest();
-		save_request.open("POST", "cgi/postoffer.sh", false);
-		save_request.send(JSON.stringify(pc.localDescription));
+		post_request = new XMLHttpRequest();
+		post_request.open("POST", "cgi/postoffer.sh", false);
+		post_request.send(JSON.stringify(pc.localDescription));
 	}
 };
 
@@ -17,9 +17,9 @@ navigator.webkitGetUserMedia({ audio: true, video: true },
 	});
 
 intfunc = window.setInterval(function(){
-	load_request = new XMLHttpRequest();
-	load_request.open("GET", "cgi/getanswer.sh", false);
-	load_request.onreadystatechange = function() {
+	get_request = new XMLHttpRequest();
+	get_request.open("GET", "cgi/getanswer.sh", false);
+	get_request.onreadystatechange = function() {
 		if (this.readyState == 4) {
 			if (this.status == 200 && this.responseText != "") {
 				var offer = JSON.parse(this.responseText);
@@ -28,5 +28,5 @@ intfunc = window.setInterval(function(){
 			}
 		}
 	};
-	load_request.send(null);
+	get_request.send(null);
 }, 1000);
