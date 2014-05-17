@@ -11,20 +11,17 @@ pc.onaddstream = function(e) {
 	document.getElementById("elvideo").src = URL.createObjectURL(e.stream);
 };
 
-var offer;
-
 save_request = new XMLHttpRequest();
 save_request.open("GET", "cgi/getoffer.sh", false);
 save_request.onreadystatechange = function() {
 	if (this.readyState == 4) {
 		if (this.status == 200) {
-			offer = JSON.parse(this.responseText);
+			var offer = JSON.parse(this.responseText);
+			pc.setRemoteDescription(new RTCSessionDescription(offer));
+			pc.createAnswer(function (desc) {
+				pc.setLocalDescription(desc);
+			});
 		}
 	}
 };
 save_request.send(null);
-
-pc.setRemoteDescription(new RTCSessionDescription(offer));
-pc.createAnswer(function (desc) {
-	pc.setLocalDescription(desc);
-});
